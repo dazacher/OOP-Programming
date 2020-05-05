@@ -9,8 +9,6 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./Develop/lib/htmlRenderer");
 const employeeList = [];
-const answers = "";
-let role = "";
 
 
 const writeFileAsync = util.promisify(fs.writeFile);
@@ -20,26 +18,38 @@ const writeFileAsync = util.promisify(fs.writeFile);
 function userPrompt() {
     return inquirer
         .prompt([
-
+            {
+                type: "list",
+                name: "choice",
+                message: "Chose which employee you would like to create:",
+                choices:
+                    [
+                        "Create Manager",
+                        "Create Engineer",
+                        "Create Intern",
+                        "Create Team"
+                    ]
+            }
         ])
-        .then(function (employees) {
-            console.log(employees);
+        .then(function ({ choice }) {
 
-
-        })
-
-        .then(function (answers, ...employees) {
-            return inquirer
-                .prompt([
-                    {
-                        type: "confirm",
-                        name: "again",
-                        message: "Do you want to enter another Team Member?",
-                        default: true,
-                        //userPrompt()
-                    }
-                ])
-        })
+            switch (choice) {
+                case "Create Manager":
+                    addManager();
+                    break;
+                case "Create Engineer":
+                    addEngineer();
+                    break;
+                case "Create Intern":
+                    addIntern();
+                    break;
+                case "Create Team":
+                    generateTeam();
+                    break;
+                default:
+                    console.log("Please chose an Employee to add.");
+            }
+        });
 }
 
 function addManager() {
@@ -53,7 +63,14 @@ function addManager() {
             {
                 type: "input",
                 name: "email",
-                message: "What is your Manager's email address?"
+                message: "What is your Manager's email address?",
+                validate: function(value){
+                    var pass = value.match(/^[\w#][\w\.\'+#](.[\w\\'#]+)\@[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*(.[a-zA-Z]{2,20})$/i)
+                    if (pass){
+                        return true;
+                    }
+                    return "Please enter a valid email address";
+                }
             },
             {
                 type: "input",
@@ -68,14 +85,9 @@ function addManager() {
         ])
         .then(function (answers) {
             const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
-            var obj = {
-                role: manager.getRole(),
-                name: manager.getName(),
-                id: manager.getId(),
-                email: manager.getEmail(),
-                officeNumber: manager.getOfficeNumber()
-            }
-            employeeList.push(obj);
+            
+            employeeList.push(manager);
+            console.log(employeeList);
             userPrompt();
         })
 }
@@ -91,7 +103,14 @@ function addEngineer() {
             {
                 type: "input",
                 name: "email",
-                message: "What is your Engineer's email address?"
+                message: "What is your Engineer's email address?",
+                validate: function(value){
+                    var pass = value.match(/^[\w#][\w\.\'+#](.[\w\\'#]+)\@[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*(.[a-zA-Z]{2,20})$/i)
+                    if (pass){
+                        return true;
+                    }
+                    return "Please enter a valid email address";
+                }
             },
             {
                 type: "input",
@@ -106,14 +125,9 @@ function addEngineer() {
         ])
         .then(function (answers) {
             const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
-            var obj = {
-                role: engineer.getRole(),
-                name: engineer.getName(),
-                id: engineer.getId(),
-                email: engineer.getEmail(),
-                github: engineer.getGithub()
-            }
-            employeeList.push(obj);
+           
+            employeeList.push(engineer);
+            console.log(employeeList);
             userPrompt();
         })
 }
@@ -129,7 +143,14 @@ function addIntern() {
             {
                 type: "input",
                 name: "email",
-                message: "What is your Intern's email address?"
+                message: "What is your Intern's email address?",
+                validate: function(value){
+                    var pass = value.match(/^[\w#][\w\.\'+#](.[\w\\'#]+)\@[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*(.[a-zA-Z]{2,20})$/i)
+                    if (pass){
+                        return true;
+                    }
+                    return "Please enter a valid email address";
+                }
             },
             {
                 type: "input",
@@ -144,24 +165,30 @@ function addIntern() {
         ])
         .then(function (answers) {
             const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
-            var obj = {
-                role: intern.getRole(),
-                name: intern.getName(),
-                id: intern.getId(),
-                email: intern.getEmail(),
-                school: intern.getSchool()
-            }
-            employeeList.push(obj);
+            
+            employeeList.push(intern);
+            console.log(employeeList);
             userPrompt();
         })
 }
+
+
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
 
 
-
+function generateTeam() {
+    const html = render(employeeList);
+    fs.mkdir(OUTPUT_DIR, { recursive: true }, function (err) {
+        if (err) throw err;
+        console.log(html)
+        writeFileAsync(outputPath, html)
+            .then(() => console.log("Successfully wrote to team.html"))
+            .catch(err => console.log(err));
+    })
+}
 
 
 // After you have your html, you're now ready to create an HTML file using the HTML
@@ -170,25 +197,8 @@ function addIntern() {
 // Hint: you may need to check if the `output` folder exists and create it if it
 // does not.
 
-
-// const writeFileAsync = await ("../output/team.html", html);
-
-userPrompt()
-    .then((role, answers, ...employees) => {
-        console.log(employees)
-        console.log(role);
-        console.log(answers);
-        const html = render(employees);
-
-        return writeFileAsync("./output/team.html", html);
-    })
-    .then(() => {
-
-        console.log("Successfully wrote to team.html");
-    })
-    .catch(function (err) {
-        console.log(err);
-    })
+userPrompt();
+    
 // HINT: each employee type (manager, engineer, or intern) has slightly different
 // information; write your code to ask different questions via inquirer depending on
 // employee type.
