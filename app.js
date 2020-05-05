@@ -8,7 +8,7 @@ const fs = require("fs");
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./Develop/lib/htmlRenderer");
-const employees = [];
+const employeeList = [];
 const answers = "";
 let role = "";
 
@@ -20,80 +20,15 @@ const writeFileAsync = util.promisify(fs.writeFile);
 function userPrompt() {
     return inquirer
         .prompt([
-            {
-                type: "input",
-                name: "name",
-                message: "What is your new team members name?"
-            },
-            {
-                type: "input",
-                name: "email",
-                message: "What is your new team members email address?"
-            },
-            {
-                type: "confirm",
-                name: "managerType",
-                message: "Is this a Manager?",
-                default: false
-            },
-            {
-                type: "confirm",
-                name: "engineerType",
-                message: "Is this a Engineer?",
-                default: false
-            },
-            {
-                type: "confirm",
-                name: "internType",
-                message: "Is this a Intern?",
-                default: false
-            },
-            {
-                type: "input",
-                name: "id",
-                message: "New members ID?"
-            }
+
         ])
         .then(function (employees) {
             console.log(employees);
-            if (employees.managerType === true) {
-                role = "Manager";
-                return inquirer
-                    .prompt([
-                        {
-                            type: "input",
-                            name: "officeNumber",
-                            message: "What is your Manager's office number?"
-                        }
-                    ])
 
-            }
-            if (employees.engineerType === true) {
-                role = "Engineer";
-                return inquirer
-                    .prompt([
-                        {
-                            type: "input",
-                            name: "github",
-                            message: "What is your Engineer's GitHub user name?"
-                        }
-                    ])
-            }
-            if (employees.internType === true) {
-                role = "Intern";
-                return inquirer
-                    .prompt([
-                        {
-                            type: "input",
-                            name: "school",
-                            message: "What school does your Intern attend?"
-                        }
-                    ])
 
-            }
         })
 
-        .then( function(answers, ...employees) {
+        .then(function (answers, ...employees) {
             return inquirer
                 .prompt([
                     {
@@ -107,8 +42,119 @@ function userPrompt() {
         })
 }
 
+function addManager() {
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                name: "name",
+                message: "What is your Manager's name?"
+            },
+            {
+                type: "input",
+                name: "email",
+                message: "What is your Manager's email address?"
+            },
+            {
+                type: "input",
+                name: "id",
+                message: "What is you Manager's ID?"
+            },
+            {
+                type: "input",
+                name: "officeNumber",
+                message: "What is your Manager's office number?"
+            }
+        ])
+        .then(function (answers) {
+            const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
+            var obj = {
+                role: manager.getRole(),
+                name: manager.getName(),
+                id: manager.getId(),
+                email: manager.getEmail(),
+                officeNumber: manager.getOfficeNumber()
+            }
+            employeeList.push(obj);
+            userPrompt();
+        })
+}
 
+function addEngineer() {
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                name: "name",
+                message: "What is your Engineer's name?"
+            },
+            {
+                type: "input",
+                name: "email",
+                message: "What is your Engineer's email address?"
+            },
+            {
+                type: "input",
+                name: "id",
+                message: "What is you Engineer's ID?"
+            },
+            {
+                type: "input",
+                name: "github",
+                message: "What is your Engineer's GitHub name?"
+            }
+        ])
+        .then(function (answers) {
+            const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
+            var obj = {
+                role: engineer.getRole(),
+                name: engineer.getName(),
+                id: engineer.getId(),
+                email: engineer.getEmail(),
+                github: engineer.getGithub()
+            }
+            employeeList.push(obj);
+            userPrompt();
+        })
+}
 
+function addIntern() {
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                name: "name",
+                message: "What is your Intern's name?"
+            },
+            {
+                type: "input",
+                name: "email",
+                message: "What is your Intern's email address?"
+            },
+            {
+                type: "input",
+                name: "id",
+                message: "What is you Intern's ID?"
+            },
+            {
+                type: "input",
+                name: "school",
+                message: "What school is your Intern from?"
+            }
+        ])
+        .then(function (answers) {
+            const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
+            var obj = {
+                role: intern.getRole(),
+                name: intern.getName(),
+                id: intern.getId(),
+                email: intern.getEmail(),
+                school: intern.getSchool()
+            }
+            employeeList.push(obj);
+            userPrompt();
+        })
+}
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
