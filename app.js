@@ -58,7 +58,17 @@ function addManager() {
             {
                 type: "input",
                 name: "name",
-                message: "What is your Manager's name?"
+                message: "What is your Manager's name?",
+                validate: function validateEngineerName(value) {
+                    let userInput = value;
+
+                    var pass = (value !== "");
+
+                    if (pass) {
+                        return true;
+                    }
+                    return `Please enter a valid Engineer user name.`
+                }
             },
             {
                 type: "input",
