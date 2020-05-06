@@ -65,7 +65,7 @@ function addManager() {
                 name: "email",
                 message: "What is your Manager's email address?",
                 validate: function(value){
-                    var pass = value.match(/^[\w#][\w\.\'+#](.[\w\\'#]+)\@[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*(.[a-zA-Z]{2,20})$/i)
+                    var pass = value.match(/^[\w#][\w\.\'+#](.[\w\\'#]+)\@[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*\.(.[a-zA-Z]{2,20})$/i)
                     if (pass){
                         return true;
                     }
@@ -98,14 +98,24 @@ function addEngineer() {
             {
                 type: "input",
                 name: "name",
-                message: "What is your Engineer's name?"
+                message: "What is your Engineer's name?",
+                validate: function validateEngineerName(value) {
+                    let userInput = value;
+
+                    var pass = (value !== "");
+
+                    if (pass) {
+                        return true;
+                    }
+                    return `Please enter a valid Engineer user name.`
+                }
             },
             {
                 type: "input",
                 name: "email",
                 message: "What is your Engineer's email address?",
                 validate: function(value){
-                    var pass = value.match(/^[\w#][\w\.\'+#](.[\w\\'#]+)\@[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*(.[a-zA-Z]{2,20})$/i)
+                    var pass = value.match(/^[\w#][\w\.\'+#](.[\w\\'#]+)\@[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*\.(.[a-zA-Z]{2,20})$/i)
                     if (pass){
                         return true;
                     }
@@ -115,12 +125,32 @@ function addEngineer() {
             {
                 type: "input",
                 name: "id",
-                message: "What is you Engineer's ID?"
+                message: "What is you Engineer's ID?",
+                validate: function validateEngineerIDName(value) {
+                    let userInput = value;
+
+                    var pass = (value !== "");
+
+                    if (pass) {
+                        return true;
+                    }
+                    return `Please enter a valid ID user name.`
+                }
             },
             {
                 type: "input",
                 name: "github",
-                message: "What is your Engineer's GitHub name?"
+                message: "What is your Engineer's GitHub name?",
+                validate: function validateGitHubName(value) {
+                    let userInput = value;
+
+                    var pass = (value !== "");
+
+                    if (pass) {
+                        return true;
+                    }
+                    return `Please enter a valid GitHub user name.`
+                }
             }
         ])
         .then(function (answers) {
@@ -145,7 +175,7 @@ function addIntern() {
                 name: "email",
                 message: "What is your Intern's email address?",
                 validate: function(value){
-                    var pass = value.match(/^[\w#][\w\.\'+#](.[\w\\'#]+)\@[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*(.[a-zA-Z]{2,20})$/i)
+                    var pass = value.match(/^[\w#][\w\.\'+#](.[\w\\'#]+)\@[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*\.(.[a-zA-Z]{2,20})$/i)
                     if (pass){
                         return true;
                     }
