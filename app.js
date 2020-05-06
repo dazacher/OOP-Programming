@@ -59,7 +59,7 @@ function addManager() {
                 type: "input",
                 name: "name",
                 message: "What is your Manager's name?",
-                validate: function validateEngineerName(value) {
+                validate: function validateManagerName(value) {
                     let userInput = value;
 
                     var pass = (value !== "");
@@ -67,7 +67,7 @@ function addManager() {
                     if (pass) {
                         return true;
                     }
-                    return `Please enter a valid Engineer user name.`
+                    return `Please enter a valid Manager user name.`
                 }
             },
             {
@@ -85,12 +85,32 @@ function addManager() {
             {
                 type: "input",
                 name: "id",
-                message: "What is you Manager's ID?"
+                message: "What is you Manager's ID?",
+                validate: function validateManagerID(value) {
+                    let userInput = value;
+
+                    var pass = (value !== "");
+
+                    if (pass) {
+                        return true;
+                    }
+                    return `Please enter a valid ID.`
+                }
             },
             {
                 type: "input",
                 name: "officeNumber",
-                message: "What is your Manager's office number?"
+                message: "What is your Manager's office number?",
+                validate: function validateManagerOfficeNumber(value) {
+                    let userInput = value;
+
+                    var pass = (value !== "");
+
+                    if (pass) {
+                        return true;
+                    }
+                    return `Please enter a valid office number.`
+                }
             }
         ])
         .then(function (answers) {
@@ -136,7 +156,7 @@ function addEngineer() {
                 type: "input",
                 name: "id",
                 message: "What is you Engineer's ID?",
-                validate: function validateEngineerIDName(value) {
+                validate: function validateEngineerID(value) {
                     let userInput = value;
 
                     var pass = (value !== "");
@@ -144,7 +164,7 @@ function addEngineer() {
                     if (pass) {
                         return true;
                     }
-                    return `Please enter a valid ID user name.`
+                    return `Please enter a valid ID.`
                 }
             },
             {
