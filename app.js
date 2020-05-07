@@ -195,7 +195,16 @@ function addIntern() {
             {
                 type: "input",
                 name: "name",
-                message: "What is your Intern's name?"
+                message: "What is your Intern's name?",
+                validate: function validateInternName(value) {
+                    
+                    var pass = value.match(/^([a-zA-Z]{2,20})$/i)
+
+                    if (pass) {
+                        return true;
+                    }
+                    return `Please enter a valid Intern name.`
+                }
             },
             {
                 type: "input",
@@ -212,12 +221,31 @@ function addIntern() {
             {
                 type: "input",
                 name: "id",
-                message: "What is you Intern's ID?"
+                message: "What is you Intern's ID?",
+                validate: function validateInternID(value) {
+                    let userInput = value;
+
+                    var pass = (value !== "");
+
+                    if (pass) {
+                        return true;
+                    }
+                    return `Please enter a valid ID.`
+                }
             },
             {
                 type: "input",
                 name: "school",
-                message: "What school is your Intern from?"
+                message: "What school is your Intern from?",
+                validate: function validateInternSchool(value) {
+
+                    var pass = value.match(/^([a-zA-Z]{2,20})$/i)
+
+                    if (pass) {
+                        return true;
+                    }
+                    return `Please enter a valid school for your Intern.`
+                }
             }
         ])
         .then(function (answers) {
