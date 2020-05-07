@@ -60,15 +60,14 @@ function addManager() {
                 name: "name",
                 message: "What is your Manager's name?",
                 validate: function validateManagerName(value) {
-                    let userInput = value;
 
-                    var pass = (value !== "");
+                var pass = value.match(/^([a-zA-Z]{2,20})$/i)
 
-                    if (pass) {
-                        return true;
+                if (pass) {
+                            return true;
+                        }
+                        return `Please enter a valid Manager name.`
                     }
-                    return `Please enter a valid Manager user name.`
-                }
             },
             {
                 type: "input",
@@ -130,14 +129,13 @@ function addEngineer() {
                 name: "name",
                 message: "What is your Engineer's name?",
                 validate: function validateEngineerName(value) {
-                    let userInput = value;
-
-                    var pass = (value !== "");
+                    
+                    var pass = value.match(/^([a-zA-Z]{2,20})$/i)
 
                     if (pass) {
                         return true;
                     }
-                    return `Please enter a valid Engineer user name.`
+                    return `Please enter a valid Engineer's name.`
                 }
             },
             {
@@ -172,9 +170,8 @@ function addEngineer() {
                 name: "github",
                 message: "What is your Engineer's GitHub name?",
                 validate: function validateGitHubName(value) {
-                    let userInput = value;
 
-                    var pass = (value !== "");
+                    var pass = value.match(/^([a-zA-Z]{2,20})$/i)
 
                     if (pass) {
                         return true;
