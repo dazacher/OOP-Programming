@@ -61,21 +61,23 @@ function addManager() {
                 message: "What is your Manager's name?",
                 validate: function validateManagerName(value) {
 
-                var pass = value.match(/^([a-zA-Z]{2,20})$/i)
+                    var pass = value.match(/^([a-zA-Z\s]{2,20})$/i)
 
-                if (pass) {
-                            return true;
-                        }
-                        return `Please enter a valid Manager name.`
+                    if (pass) {
+                        return true;
                     }
+                    return `Please enter a valid Manager name.`
+                }
             },
             {
                 type: "input",
                 name: "email",
                 message: "What is your Manager's email address?",
-                validate: function(value){
-                    var pass = value.match(/^[\w#][\w\.\'+#](.[\w\\'#]+)\@[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*\.(.[a-zA-Z]{2,20})$/i)
-                    if (pass){
+                validate: function (value) {
+
+                    var pass = value.match(/^(.[\w\\'#]+)\@[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*\.(.[a-zA-Z]{2,20})$/i)
+
+                    if (pass) {
                         return true;
                     }
                     return "Please enter a valid email address";
@@ -86,7 +88,7 @@ function addManager() {
                 name: "id",
                 message: "What is you Manager's ID?",
                 validate: function validateManagerID(value) {
-                    let userInput = value;
+                    // let userInput = value;
 
                     var pass = (value !== "");
 
@@ -101,7 +103,7 @@ function addManager() {
                 name: "officeNumber",
                 message: "What is your Manager's office number?",
                 validate: function validateManagerOfficeNumber(value) {
-                    let userInput = value;
+                    // let userInput = value;
 
                     var pass = (value !== "");
 
@@ -114,7 +116,7 @@ function addManager() {
         ])
         .then(function (answers) {
             const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
-            
+
             employeeList.push(manager);
             console.log(employeeList);
             userPrompt();
@@ -129,8 +131,8 @@ function addEngineer() {
                 name: "name",
                 message: "What is your Engineer's name?",
                 validate: function validateEngineerName(value) {
-                    
-                    var pass = value.match(/^([a-zA-Z]{2,20})$/i)
+
+                    var pass = value.match(/^([a-zA-Z\s]{2,20})$/i)
 
                     if (pass) {
                         return true;
@@ -142,9 +144,11 @@ function addEngineer() {
                 type: "input",
                 name: "email",
                 message: "What is your Engineer's email address?",
-                validate: function(value){
-                    var pass = value.match(/^[\w#][\w\.\'+#](.[\w\\'#]+)\@[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*\.(.[a-zA-Z]{2,20})$/i)
-                    if (pass){
+                validate: function (value) {
+
+                    var pass = value.match(/^(.[\w\\'#]+)\@[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*\.(.[a-zA-Z]{2,20})$/i)
+
+                    if (pass) {
                         return true;
                     }
                     return "Please enter a valid email address";
@@ -155,7 +159,7 @@ function addEngineer() {
                 name: "id",
                 message: "What is you Engineer's ID?",
                 validate: function validateEngineerID(value) {
-                    let userInput = value;
+                    // let userInput = value;
 
                     var pass = (value !== "");
 
@@ -182,7 +186,7 @@ function addEngineer() {
         ])
         .then(function (answers) {
             const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
-           
+
             employeeList.push(engineer);
             console.log(employeeList);
             userPrompt();
@@ -197,8 +201,8 @@ function addIntern() {
                 name: "name",
                 message: "What is your Intern's name?",
                 validate: function validateInternName(value) {
-                    
-                    var pass = value.match(/^([a-zA-Z]{2,20})$/i)
+
+                    var pass = value.match(/^([a-zA-Z\s]{2,20})$/i)
 
                     if (pass) {
                         return true;
@@ -210,9 +214,11 @@ function addIntern() {
                 type: "input",
                 name: "email",
                 message: "What is your Intern's email address?",
-                validate: function(value){
-                    var pass = value.match(/^[\w#][\w\.\'+#](.[\w\\'#]+)\@[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*\.(.[a-zA-Z]{2,20})$/i)
-                    if (pass){
+                validate: function (value) {
+
+                    var pass = value.match(/^(.[\w\\'#]+)\@[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*\.(.[a-zA-Z]{2,20})$/i)
+
+                    if (pass) {
                         return true;
                     }
                     return "Please enter a valid email address";
@@ -223,7 +229,7 @@ function addIntern() {
                 name: "id",
                 message: "What is you Intern's ID?",
                 validate: function validateInternID(value) {
-                    let userInput = value;
+                    // let userInput = value;
 
                     var pass = (value !== "");
 
@@ -239,7 +245,7 @@ function addIntern() {
                 message: "What school is your Intern from?",
                 validate: function validateInternSchool(value) {
 
-                    var pass = value.match(/^([a-zA-Z]{2,20})$/i)
+                    var pass = value.match(/^([a-zA-Z\s]{2,20})$/i)
 
                     if (pass) {
                         return true;
@@ -250,7 +256,7 @@ function addIntern() {
         ])
         .then(function (answers) {
             const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
-            
+
             employeeList.push(intern);
             console.log(employeeList);
             userPrompt();
@@ -265,12 +271,19 @@ function addIntern() {
 
 
 function generateTeam() {
+
     const html = render(employeeList);
+
     fs.mkdir(OUTPUT_DIR, { recursive: true }, function (err) {
+
         if (err) throw err;
+
         console.log(html)
+
         writeFileAsync(outputPath, html)
+
             .then(() => console.log("Successfully wrote to team.html"))
+
             .catch(err => console.log(err));
     })
 }
@@ -283,7 +296,7 @@ function generateTeam() {
 // does not.
 
 userPrompt();
-    
+
 // HINT: each employee type (manager, engineer, or intern) has slightly different
 // information; write your code to ask different questions via inquirer depending on
 // employee type.
