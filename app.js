@@ -75,7 +75,7 @@ function addManager() {
                 message: "What is your Manager's email address?",
                 validate: function (value) {
 
-                    var pass = value.match(/^(.[\w\\'#]+)\@[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*\.(.[a-zA-Z]{2,20})$/i)
+                    var pass = value.match(/^(.[\w\\'#]+)\@[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*\.(.[a-zA-Z]{1,20})$/i)
 
                     if (pass) {
                         return true;
@@ -146,7 +146,7 @@ function addEngineer() {
                 message: "What is your Engineer's email address?",
                 validate: function (value) {
 
-                    var pass = value.match(/^(.[\w\\'#]+)\@[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*\.(.[a-zA-Z]{2,20})$/i)
+                    var pass = value.match(/^(.[\w\\'#]+)\@[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*\.(.[a-zA-Z]{1,20})$/i)
 
                     if (pass) {
                         return true;
@@ -216,7 +216,7 @@ function addIntern() {
                 message: "What is your Intern's email address?",
                 validate: function (value) {
 
-                    var pass = value.match(/^(.[\w\\'#]+)\@[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*\.(.[a-zA-Z]{2,20})$/i)
+                    var pass = value.match(/^(.[\w\\'#]+)\@[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*\.(.[a-zA-Z]{1,20})$/i)
 
                     if (pass) {
                         return true;
